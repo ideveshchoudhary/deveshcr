@@ -1,0 +1,46 @@
+{
+  "dealers": [
+    {
+      "id": "0294",
+      "emploeId": "111",
+      "name": "111",
+      "pnumber": 111,
+      "address": "111"
+    },
+    {
+      "id": "ec82",
+      "emploeId": "123",
+      "name": "devesh",
+      "pnumber": 7011972128,
+      "address": "Colony"
+    },
+    {
+      "id": "7a1c",
+      "emploeId": "1544",
+      "name": "Devesh Choudhary",
+      "pnumber": 7011971212,
+      "address": "Noida sec 62"
+    },
+    {
+      "id": "f43b",
+      "emploeId": "147",
+      "name": "devesh11",
+      "pnumber": 9874562312,
+      "address": "Greater NOida"
+    },
+    {
+      "id": "287b",
+      "emploeId": "d111",
+      "name": "dd",
+      "pnumber": 121,
+      "address": "13w32"
+    },
+    {
+      "id": "1f35",
+      "emploeId": "123",
+      "name": "Devesh",
+      "pnumber": 70,
+      "address": "ss"
+    }
+  ]
+}
