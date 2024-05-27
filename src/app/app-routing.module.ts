@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./dealer-list/dealer-list.module').then(m => m.DealerListModule)
-    //can you here login page
+    //can you here login
   },
   {
     path: 'dealerList',
