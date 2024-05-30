@@ -33,7 +33,7 @@ export class DealerService {
 
   // Update dealer details
   editDealer(dealerId: number): Observable<any> {
-    return this.http.patch(`https://pv.greatfuturetechno.com/pv-api/dealer/?id=`, dealerId, this.header());
+    return this.http.put(`https://pv.greatfuturetechno.com/pv-api/dealer/?id=`, dealerId, this.header());
   }
 
   updateDealer(dealerId: number, updatedData: any): Observable<any> {
