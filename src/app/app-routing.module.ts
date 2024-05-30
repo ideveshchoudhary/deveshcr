@@ -5,11 +5,19 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./dealer-list/dealer-list.module').then(m => m.DealerListModule)
-    //can you here login
+  },
+
+  {
+    path: 'form',
+    loadChildren: () => import('./dealer-form/dealer-form.module').then(m => m.DealerFormModule)
   },
   {
     path: 'dealerList',
     loadChildren: () => import('./dealer-list/dealer-list.module').then(m => m.DealerListModule)
+  },
+  {
+    path: 'edit/:id',
+    loadChildren: () => import('./edit-dealer/edit-dealer.module').then(m => m.EditDealerModule)
   },
   {
     path: '**',

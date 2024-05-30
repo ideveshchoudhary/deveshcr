@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DealerService } from 'src/app/dealer.service';
 import Swal from 'sweetalert2';
 @Component({
@@ -10,91 +10,48 @@ import Swal from 'sweetalert2';
 export class DealerListComponent implements OnInit {
   active = 1;
   allDealers: any[] = [];
-  dealerlist!: FormGroup;
-  constructor(private fb: FormBuilder, private api: DealerService) {
-    this.dealerlist = this.fb.group({
-      emploeId: new FormControl('', Validators.required),
-      name: new FormControl('', Validators.required),
-      pnumber: new FormControl('', Validators.required),
-      address: new FormControl('', Validators.required),
+  editdealer: any[] = [];
+  constructor(private api: DealerService, private router: Router) { }
 
-    })
-  }
 
   ngOnInit(): void {
-    this.getAllUsersData();
-
-
+    this.getAlldeal();
   }
 
-  onClick() {
-    var type = this.dealerlist.value.id == null ? 'Add' : 'update';
-    this.api.addUpdateUser(this.dealerlist.value, type).subscribe((res) => {
-      Swal.fire({
-        title: "The Internet?",
-        text: "That thing is still around?",
-        icon: "question"
-      });
-      if (type == 'Add') {
-        Swal.fire({
-          icon: 'success',
-          title: 'User (' + this.dealerlist.value.name + ') Saved Successfully',
-        })
-      } else {
-        alert("Updated")
 
+  getAlldeal() {
+    this.api.getAllData().subscribe((res: any) => {
+      this.allDealers = res;
+      console.log('res', res);
+    })
+  }
+
+  editDealer(dealerId: number, updatedData: any): void {
+    this.api.updateDealer(dealerId, updatedData).subscribe(
+      (dealer: any) => {
+        console.log(dealer);
+        this.router.navigate(['/edit', dealerId], { state: { dealer } });
+      },
+      (error) => {
+        console.error("Error editing dealer:", error);
+        Swal.fire('Error', 'Failed to edit dealer details.', 'error');
       }
-      console.log("hello", res);
-      this.dealerlist.reset()
-      this.getAllUsersData();
-    })
-
-    console.log(this.dealerlist.value);
+    );
   }
 
-  getAllUsersData() {
-    this.api.getAllDealer().subscribe(data => {
-      this.allDealers = data;
-      console.log(data);
 
-    })
-  }
 
-  editUser(id: any) {
-    this.api.editUser(id).subscribe(res => {
-      this.active = 1;
-      this.dealerlist.patchValue({
-        id: res.id,
-        emploeId: res.emploeId,
-        name: res.name,
-        pnumber: res.pnumber,
-        address: res.address,
-      });
-      // Swal.fire({
-      //   icon: 'success',
-      //   title: "Do you want to edit?",
-      //   showCloseButton: true,
-      //   showCancelButton: true,
-      //   focusConfirm: false,
-      // })
-      console.log("user edit", res);
-
-      this.dealerlist.patchValue({
-        emploeId: res.emploeId,
-        name: res.name,
-        pnumber: res.pnumber,
-        address: res.address,
-      })
-
-    })
-  }
-
-  deleteSingleUser(id: any) {
-    // debugger
-    this.api.deleteADealer(id).subscribe(res => {
-      Swal.fire('Deleted!', '', 'success')
-      this.getAllUsersData();
-    })
+  deleteSingleUser(id: number) {
+    this.api.deleteDealer(id).subscribe(
+      (res: any) => {
+        Swal.fire('Deleted!', 'Dealer deleted successfully.', 'success');
+        this.getAlldeal();
+      },
+      (error) => {
+        console.error("Error deleting dealer:", error);
+        Swal.fire('Error', 'Failed to delete dealer.', 'error');
+      }
+    );
   }
 }
 

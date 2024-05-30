@@ -1,0 +1,7 @@
+{
+    "/api": {
+        "target": "https://pv.greatfuturetechno.com",
+        "secure": false,
+        "changeOrigin": true
+    }
+}

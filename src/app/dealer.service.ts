@@ -1,48 +1,50 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DealerService {
 
-  private baseUrl = "http://localhost:3000/dealers";
+  // private baseUrl = "https://pv.greatfuturetechno.com/pv-api/dealer";
 
   constructor(private http: HttpClient) { }
-
-  //All Dealers
-  getAllDealer(): Observable<any> {
-    return this.http.get<any>(this.baseUrl)
+  header() {
+    let headers = new HttpHeaders({
+      // 'Content-Type' : 'application/json; charset=utf-8',
+      // 'Accept'       : '*',
+      'Authorization': `${'Token 084f2df6319f2729c860fd3d1393840e41f56f00'}`,
+    });
+    let options = {
+      headers: headers
+    }
+    return options
   }
-
+  //All Dealers
+  getAllData() {
+    return this.http.get(`https://pv.greatfuturetechno.com/pv-api/dealer/`, this.header())
+  }
 
   //Add new Dealer
-  // addUpdateUser(data: any): Observable<any> {
-  //   return this.http.post<any>(this.baseUrl, data)
-  // }
-
-  addUpdateUser(data: any, type: any): Observable<any> {
-    if (type == 'Add') {
-      return this.http.post<any>(this.baseUrl, data)
-    }
-    else {
-      return this.http.post<any>(this.baseUrl + data.id, data)
-
-    }
+  addNewDealer(obj: any) {
+    return this.http.post(`https://pv.greatfuturetechno.com/pv-api/dealer/`, obj, this.header())
   }
 
-  //UPdate Dealer
-  editUser(id: any): Observable<any> {
-    // return this.http.get(this.baseUrl + "/" + id)
-    return this.http.get(`${this.baseUrl}/${id}`)
+  // Update dealer details
+  editDealer(dealerId: number): Observable<any> {
+    return this.http.patch(`https://pv.greatfuturetechno.com/pv-api/dealer/?id=`, dealerId, this.header());
+  }
 
+  updateDealer(dealerId: number, updatedData: any): Observable<any> {
+    return this.http.patch(`https://pv.greatfuturetechno.com/pv-api/dealer/?id=${dealerId}`, updatedData, this.header());
+  }
+
+  //Delete a User
+  deleteDealer(id: number): Observable<any> {
+    return this.http.delete(`https://pv.greatfuturetechno.com/pv-api/dealer/?id=${id}`, this.header());
   }
 
 
-  //Delete a Use
-  deleteADealer(id: any): Observable<any> {
-    // debugger
-    return this.http.delete<any>(this.baseUrl + "/" + id)
-  }
+
 }
